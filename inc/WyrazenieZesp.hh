@@ -10,7 +10,7 @@
 /*!
  * Modeluje zbior operatorow arytmetycznych.
  */
-enum Operator { Op_Dodaj=1, Op_Odejmij=2, Op_Mnoz=3, Op_Dziel=4 };
+enum Operator {Op_Dodaj = 0, Op_Odejmij, Op_Mnoz, Op_Dziel};
 
 
 /*
@@ -23,26 +23,27 @@ struct WyrazenieZesp {
 };
 
 
-//Tworzy liczbę zepoloną
-LZespolona Utworz(double re, double im);
+
+//Wyświetla liczbę zespoloną
+std::ostream &operator <<(std::ostream& StrmWy,LZespolona &Lz);
+
+//Wyświetla wyrażenie zespolone
+std::ostream &operator <<(std::ostream &StrWy, WyrazenieZesp &WyrZ);
 
 //Wczytuje liczbę zespoloną
-LZespolona Wczytaj();
+std::istream &operator >>(std::istream& StrmWe,LZespolona &Lz);
+
+//Wczytuje wrażenie zespolone
+std::istream &operator >>(std::istream& StrmWe,WyrazenieZesp &WyrZ);
+
+//Tworzy liczbę zepoloną
+LZespolona Utworz(double re, double im);
 
 /*//Tworzy wyrażenie zespolone
 WyrazenieZesp Utworz(double a, double b, Operator o, double c, double d);*/
 
-//Wczytuje liczbę zespoloną
-LZespolona Wczytaj();
-
-//Wczytuje wrażenie zespolone
-WyrazenieZesp Wczytaj1();
-
-//Wyświetla liczbę zespoloną
-void Wyswietl(LZespolona l);
-
-//Wyświetla wyrażenie zespolone
-void Wyswietl(WyrazenieZesp  WyrZ);
+//Wczytuje wyrażenie zespolone i obsługuje błędy
+void Wczytaj(LZespolona &LZesp);
 
 //Oblicza wyrażenie zespolone
 LZespolona Oblicz(WyrazenieZesp  WyrZ);

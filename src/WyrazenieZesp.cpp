@@ -19,6 +19,39 @@ LZespolona Utworz(double re, double im)
     return l;
 }
 
+/*
+    Funkcja ta wczytuje liczbę zespoloną oraz obsługuje błędny zapis.
+    Argumenty:
+        b - wczytywana liczba zespolona.
+    Zwraca:
+        Brak.
+*/
+void Wczytaj(LZespolona &b)
+{
+    for(int i=0; ; i++)
+    {
+      std::cin >> b;
+
+      if(std::cin.fail() && i==3)
+      {
+        std::cin.clear( );
+        std::cin.ignore(1000,'\n');
+        break;
+      }
+
+      else if(std::cin.fail())
+      {
+        std::cerr << "Blad formatu liczby zespolonej. Spróbuj jeszcze raz." << std::endl << std::endl;
+        std::cout << "Twoja odpowiedź: ";
+        std::cin.clear( );
+        std::cin.ignore(1000,'\n');
+        continue;
+      }
+      break;
+
+    }
+}
+
 /*WyrazenieZesp Utworz(WyrazenieZesp zesp)
 {
     WyrazenieZesp w;
@@ -31,104 +64,117 @@ LZespolona Utworz(double re, double im)
 
 
 /*
-    Funkcja ta wczytuję liczbę zespoloną ze standardowego wejścia.
+    Funkcja ta wczytuje liczbę zespoloną ze strumienia wejściowego.
     Argumenty:
-        Brak.
+        StrWe - Strumień wejściowy,
+        Lz - liczba zespolona.
     Zwraca:
-        Funkcja zwraca liczbę zespoloną. Ponadto sprawdza czy liczba wprowadzana w poprawny sposób.
-        Jeżeli nie to zezwala na dwie ponowne próby.
+        Funkcja zwraca strumień wejściowy.
  */
-LZespolona Wczytaj()
-{   
-    LZespolona l;
+std::istream &operator >>(std::istream& StrmWe,LZespolona& Lz)
+{
     char znak;
 
+    StrmWe >> znak;
+    if(znak!='(')
+        StrmWe.setstate(std::ios::failbit);
 
-    std::cout << "Twoja odpowiedź: ";
-    std::cin >> znak >> l.re >> l.im >> znak >> znak;
+    StrmWe >> Lz.re;
+    StrmWe >> Lz.im;
     
-    for(int i = 0; i < 2; i++)
-    {   
-        if(std::cin.fail())     //Sprawdzamy czy użytkownik poprawnie wprowadził zmienną
-        {
-            std::cin.clear();               //Czyścimy i ignorujemy bufor
-            std::cin.ignore(1000,'\n');
-            std::cerr << "Blad zapisu liczby zespolonej. Sprobuj jeszcze raz." << std::endl << std::endl;
-            std::cout << "Twoja odpowiedź: ";
-            std::cin >> znak >> l.re >> l.im >> znak >> znak;
+    StrmWe >> znak;
+    if(znak!='i')
+        StrmWe.setstate(std::ios::failbit);
+    StrmWe >> znak;
+    if(znak!=')')
+        StrmWe.setstate(std::ios::failbit);
 
-            if(i==1)       //Czyścimy i ignorujemy bufor przy drugim podejciu 
-            {
-                std::cin.clear();
-                std::cin.ignore(1000,'\n');
-            }
-        }
-    }
-    return l;
-}
-
+    return StrmWe;
+} 
 
 /*
-    Funkcja ta wczytuję wyrażenie zespolone ze standardowego wejścia.
+    Funkcja ta wczytuje wyrażenie zespolone ze strumienia wejściowego.
     Argumenty:
-        Brak.
+        StrWe - Strumień wejściowy,
+        WyrZ - Wyrażenie zespolone.
     Zwraca:
-        Funkcja zwraca wyrażenie zespolone.
+        Funkcja zwraca strumień wejściowy.
  */
-WyrazenieZesp Wczytaj1()
+std::istream &operator >>(std::istream& StrmWe,WyrazenieZesp &WyrZ)
 {
-    WyrazenieZesp w;
     char oper;
 
-    w.Arg1 = Wczytaj();
+    std::cin >> WyrZ.Arg1;
     std::cin >> oper;
-    w.Arg2 = Wczytaj();
+    std::cin >> WyrZ.Arg2;
 
-    if(oper == '+')         //Sprawdzamy jaki jest operator w wyrażeniu
-        w.Op = Op_Dodaj;
-    if(oper == '-')
-        w.Op = Op_Odejmij;
-    if(oper == '*')
-        w.Op = Op_Mnoz;
-    if(oper == '/')
-        w.Op = Op_Dziel;
+    switch(oper)
+    {
+        case '+':
+            WyrZ.Op = Op_Dodaj;
+            break;
+        case '-':
+            WyrZ.Op = Op_Odejmij;
+            break;
+        case '*':
+            WyrZ.Op = Op_Mnoz;
+            break;
+        case '/':
+            WyrZ.Op = Op_Dziel;
+            break;
+        default:
+            StrmWe.setstate(std::ios::failbit);
+            break;
+    }
 
-    return w;
+    return StrmWe;
 }
 
 
 /*
-    Funkcja ta wyświetla liczbę zespoloną na standardowe wyjście.
+    Funkcja ta wyświetla liczbę zespoloną na strumień wyjściowy.
     Argumenty:
-        l - liczba zespolona, którą będziemy wyświetlać.
+        StrWy - Strumień wyjściowy,
+        Lz - liczba zespolona.
     Zwraca:
-        Brak.
+        Funkcja zwraca strumień wyjściowy.
  */
-void Wyswietl(LZespolona l)
+std::ostream &operator <<(std::ostream& StrmWy,LZespolona &Lz)
 {
-    std::cout << "(" << l.re << std::showpos << l.im << std::noshowpos << "i)" << std::endl;
+    return StrmWy << '(' <<Lz.re << std::showpos << Lz.im << std::noshowpos << "i)";
 }
 
-
 /*
-    Funkcja ta wyświetla wyrażenie zespolone na standardowe wyjście.
+    Funkcja ta wyświetla wyrażenie zespolone na strumień wyjściowy.
     Argumenty:
-        WyrZ - wyrażenie zespolone, które będziemy wyświetlać.
+        StrWy - Strumień wyjściowy,
+        WyrZ - wyrażenie zepolone.
     Zwraca:
-        Brak.
+        Funkcja zwraca strumień wyjściowy.
  */
-void Wyswietl(WyrazenieZesp  WyrZ)
-{
-    std::cout << "(" << WyrZ.Arg1.re << std::showpos << WyrZ.Arg1.im << std::noshowpos << "i) ";
-    if(WyrZ.Op == 1)
-        std::cout << "+";
-    if(WyrZ.Op == 2)
-        std::cout << "-";
-    if(WyrZ.Op == 3)
-        std::cout << "*";
-    if(WyrZ.Op == 4)
-        std::cout << "/";
-    std::cout << " (" << WyrZ.Arg2.re << std::showpos << WyrZ.Arg2.im << std::noshowpos << "i)" << std::endl;
+std::ostream &operator <<(std::ostream &StrWy, WyrazenieZesp &WyrZ)
+{   
+    StrWy << "(" << WyrZ.Arg1.re << std::showpos << WyrZ.Arg1.im << std::noshowpos << "i) ";
+
+    switch(WyrZ.Op)
+    {
+        case Op_Dodaj:
+            StrWy << '+';
+            break;
+        case Op_Odejmij:
+            StrWy << '-';
+            break;
+        case Op_Mnoz:
+            StrWy << '*';
+            break;
+        case Op_Dziel:
+            StrWy << '/';
+            break;
+    }
+
+    StrWy << " (" << WyrZ.Arg2.re << std::showpos << WyrZ.Arg2.im << std::noshowpos << "i)" << std::endl;    
+
+    return StrWy;
 }
 
 
@@ -141,15 +187,15 @@ void Wyswietl(WyrazenieZesp  WyrZ)
  */
 LZespolona Oblicz(WyrazenieZesp  WyrZ)
 {
-    if(WyrZ.Op == 1)
+    if(WyrZ.Op == 0)
     {
         return WyrZ.Arg1 + WyrZ.Arg2;
     }
-    else if(WyrZ.Op == 2)
+    else if(WyrZ.Op == 1)
     {
         return WyrZ.Arg1 - WyrZ.Arg2;
     }
-    else if(WyrZ.Op == 3)
+    else if(WyrZ.Op == 2)
     {
         return WyrZ.Arg1 * WyrZ.Arg2;
     }

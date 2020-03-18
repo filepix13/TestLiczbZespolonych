@@ -11,6 +11,7 @@ int main(int argc, char **argv)
   Statystyka stat;
   stat = Utworz();
   double show = 0;
+
   
   //Sprawdzamy czy użytkownik wprowadził odpowiedną ilość argumentów przy uruchamianiu programu
   if (argc != 2) {
@@ -40,9 +41,11 @@ int main(int argc, char **argv)
     LZespolona b, c;
 
     cout << "Podaj wynik operacji: ";
-    Wyswietl(WyrZ_PytanieTestowe);
+    cout << WyrZ_PytanieTestowe; 
+    cout << "Twoja odpowiedź: ";
     
-    b = Wczytaj();
+    Wczytaj(b);
+
     c = Oblicz(WyrZ_PytanieTestowe);
 
     if(Porownaj(b, c) == true)
@@ -55,8 +58,8 @@ int main(int argc, char **argv)
     else
     {
       cout << "Błędna odpowiedź. Poprawnym wynikiem jest: ";
-      Wyswietl(c);
-      cout << endl;
+      cout << c;
+      cout << endl << endl;
 
       dodajBld(stat);
     }
