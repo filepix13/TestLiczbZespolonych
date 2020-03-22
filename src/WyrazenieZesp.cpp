@@ -52,16 +52,6 @@ void Wczytaj(LZespolona &b)
     }
 }
 
-/*WyrazenieZesp Utworz(WyrazenieZesp zesp)
-{
-    WyrazenieZesp w;
-    w.Arg1 = zesp.Arg1
-    w.Arg2 = zesp.Arg2;
-    w.Op = o;
-    
-    return w;
-}*/
-
 
 /*
     Funkcja ta wczytuje liczbę zespoloną ze strumienia wejściowego.
@@ -91,6 +81,7 @@ std::istream &operator >>(std::istream& StrmWe,LZespolona& Lz)
 
     return StrmWe;
 } 
+
 
 /*
     Funkcja ta wczytuje wyrażenie zespolone ze strumienia wejściowego.
@@ -143,6 +134,7 @@ std::ostream &operator <<(std::ostream& StrmWy,LZespolona &Lz)
 {
     return StrmWy << '(' <<Lz.re << std::showpos << Lz.im << std::noshowpos << "i)";
 }
+
 
 /*
     Funkcja ta wyświetla wyrażenie zespolone na strumień wyjściowy.

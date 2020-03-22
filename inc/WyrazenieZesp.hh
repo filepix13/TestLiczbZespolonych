@@ -39,9 +39,6 @@ std::istream &operator >>(std::istream& StrmWe,WyrazenieZesp &WyrZ);
 //Tworzy liczbę zepoloną
 LZespolona Utworz(double re, double im);
 
-/*//Tworzy wyrażenie zespolone
-WyrazenieZesp Utworz(double a, double b, Operator o, double c, double d);*/
-
 //Wczytuje wyrażenie zespolone i obsługuje błędy
 void Wczytaj(LZespolona &LZesp);
 

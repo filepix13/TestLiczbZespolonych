@@ -22,3 +22,6 @@ void dodajPop(Statystyka& stat);
 
 //Oblicza procentowa ilość poprawnych odpowiedzi.
 double procent(Statystyka stat);
+
+//Wyświetla statystykę
+void Wyswietl(Statystyka stat);

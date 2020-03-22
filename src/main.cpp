@@ -10,14 +10,13 @@ int main(int argc, char **argv)
   WyrazenieZesp   WyrZ_PytanieTestowe;
   Statystyka stat;
   stat = Utworz();
-  double show = 0;
 
   
   //Sprawdzamy czy użytkownik wprowadził odpowiedną ilość argumentów przy uruchamianiu programu
   if (argc != 2) {
     cout << endl;
-    cout << "Brak opcji okreslajacej rodzaj testu. Proszę podać tylko jedną nazwę." << endl;
-    cout << "Dopuszczalne nazwy to: latwy, trudny." << endl;
+    cerr << "Brak opcji okreslajacej rodzaj testu. Proszę podać tylko jedną nazwę." << endl;
+    cerr << "Dopuszczalne nazwy to: latwy, trudny." << endl;
     cout << endl;
     return 1;
   }
@@ -70,10 +69,6 @@ int main(int argc, char **argv)
   cout << "Koniec testu" << endl;
   cout << endl;
 
-  cout << "Ilość dobrych odpowiedzi: " << stat.liczPop << endl;
-  cout << "Ilość błędnych opowiedzi: " << stat.liczBld << endl;
-  cout << "Wynik procentowy poprawnych odpowiedzi: ";
-  show = procent(stat);
-  cout << show << "%" << endl;
+  Wyswietl(stat);
 
 }

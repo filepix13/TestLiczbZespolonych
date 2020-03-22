@@ -1,5 +1,5 @@
 #include "Statystyka.hh"
-
+#include <iostream>
 
 /*
     Funkcja ta inicjuje statystykę.
@@ -59,4 +59,23 @@ double procent(Statystyka stat)
     show = ((double)stat.liczPop/(stat.liczPop+stat.liczBld))*100;
 
     return show;
+}
+
+
+/*
+    Funkcja wyświtla statystykę
+    Argumenty:
+        stat - statystyka.
+    Zwraca:
+        brak.
+ */
+void Wyswietl(Statystyka stat)
+{
+    double show = 0;
+
+    std::cout << "Ilość dobrych odpowiedzi: " << stat.liczPop << std::endl;
+    std::cout << "Ilość błędnych odpowiedzi: " << stat.liczBld << std::endl;
+    std::cout << "Wynik procentowy poprawnych odpowiedzi: ";
+    show = procent(stat);
+    std::cout << show << "%" << std::endl;
 }
