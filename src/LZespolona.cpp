@@ -33,6 +33,70 @@ double Modul2(LZespolona l)
   return modul;
 }
 
+
+/*
+    Funkcja ta tworzy liczbę zespoloną z dwóch liczb typu double.
+    Argumenty:
+        re - część rzeczywista liczby zespolonej,
+        im - część urojona liczby zespolonej,
+    Zwraca:
+        Funkcja zwraca liczbę zespoloną.
+ */
+LZespolona Utworz(double re, double im)
+{
+    LZespolona l;
+
+    l.re = re;
+    l.im = im;
+
+    return l;
+}
+
+
+/*
+    Funkcja ta wyświetla liczbę zespoloną na strumień wyjściowy.
+    Argumenty:
+        StrWy - Strumień wyjściowy,
+        Lz - liczba zespolona.
+    Zwraca:
+        Funkcja zwraca strumień wyjściowy.
+ */
+std::ostream &operator <<(std::ostream& StrmWy, const LZespolona &Lz)
+{
+    return StrmWy << '(' <<Lz.re << std::showpos << Lz.im << std::noshowpos << "i)";
+}
+
+
+/*
+    Funkcja ta wczytuje liczbę zespoloną ze strumienia wejściowego.
+    Argumenty:
+        StrWe - Strumień wejściowy,
+        Lz - liczba zespolona.
+    Zwraca:
+        Funkcja zwraca strumień wejściowy.
+ */
+std::istream &operator >>(std::istream& StrmWe,LZespolona& Lz)
+{
+    char znak;
+
+    StrmWe >> znak;
+    if(znak!='(')
+        StrmWe.setstate(std::ios::failbit);
+
+    StrmWe >> Lz.re;
+    StrmWe >> Lz.im;
+    
+    StrmWe >> znak;
+    if(znak!='i')
+        StrmWe.setstate(std::ios::failbit);
+    StrmWe >> znak;
+    if(znak!=')')
+        StrmWe.setstate(std::ios::failbit);
+
+    return StrmWe;
+} 
+
+
 /*!
  * Realizuje dodanie dwoch liczb zespolonych.
  * Argumenty:
@@ -103,8 +167,56 @@ LZespolona  operator / (LZespolona  Skl1,  LZespolona  Skl2)
   a = Sprzezenie(Skl2);
   b = Modul2(Skl2);
 
-  Wynik.re = (Skl1.re*a.re)/b;
-  Wynik.im = (Skl1.im*a.im)/b;
+  Wynik.re = (Skl1.re*a.re);
+  Wynik.im = (Skl1.im*a.im);
+
+  Wynik = Wynik/b;
 
   return Wynik;
+}
+
+
+/*!
+ * Realizuje dzielenie liczby zespolonej przez liczbę rzeczywistą
+ * Argumenty:
+ *    Skl1 - liczba zespolona
+ *    b - liczba rzeczywista
+ * Zwraca:
+ *    Iloraz dwoch skladnikow przekazanych jako parametry.
+ */
+LZespolona operator / (LZespolona &Skl1, double b)
+{
+  LZespolona l;
+
+  if(b == 0)
+  {
+    std::cerr << "Próba dzielenia przez zero. Zamykanie programu...";
+    std::exit(1);
+  }
+
+  l.re = Skl1.re/b;
+  l.im = Skl1.im/b;
+
+  return l;
+}
+
+
+/*
+    Funkcja ta porównuje dwie liczby zespolone.
+    Argumenty:
+        Skl1 - pierwsza liczba zespolona, którą będziemy porównywać,
+        Skl2 - druga liczba zespolona, którą będziemy porównywać.
+    Zwraca:
+        Zwraca prawdę lub fałsz.
+*/
+bool operator == (LZespolona Skl1, LZespolona Skl2)
+{
+  if(Skl1.re == Skl2.re && Skl1.im == Skl2.im)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

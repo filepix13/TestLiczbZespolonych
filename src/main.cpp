@@ -3,6 +3,8 @@
 
 using namespace std;
 
+//Wczytuje wyrażenie zespolone i obsługuje błędy
+void Wczytaj(LZespolona &LZesp);
 
 int main(int argc, char **argv)
 {
@@ -47,7 +49,7 @@ int main(int argc, char **argv)
 
     c = Oblicz(WyrZ_PytanieTestowe);
 
-    if(Porownaj(b, c) == true)
+    if(b == c)
     {
       cout << "Odpowiedz poprawna" << endl << endl;
 
@@ -71,4 +73,40 @@ int main(int argc, char **argv)
 
   Wyswietl(stat);
 
+}
+
+
+/*
+    Funkcja ta wczytuje liczbę zespoloną oraz obsługuje błędny zapis.
+    Argumenty:
+        b - wczytywana liczba zespolona.
+    Zwraca:
+        Brak.
+*/
+
+
+void Wczytaj(LZespolona &b)
+{
+    for(int i=0; ; i++)
+    {
+      std::cin >> b;
+
+      if(std::cin.fail() && i==3)
+      {
+        std::cin.clear( );
+        std::cin.ignore(1000,'\n');
+        break;
+      }
+
+      else if(std::cin.fail())
+      {
+        std::cerr << "Blad formatu liczby zespolonej. Spróbuj jeszcze raz." << std::endl << std::endl;
+        std::cout << "Twoja odpowiedź: ";
+        std::cin.clear( );
+        std::cin.ignore(1000,'\n');
+        continue;
+      }
+      break;
+
+    }
 }
